@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UNKNOWN TERMINAL</title>
+<style>
+body{margin:0;height:100vh;display:flex;align-items:center;justify-content:center;background:#000;color:#fff;font-family:Consolas,monospace;overflow:hidden;animation:bg .15s infinite}
+@keyframes bg{0%{background:#000}25%{background:#202}50%{background:#022}75%{background:#220}100%{background:#000}}
+#box{text-align:center;max-width:800px;padding:20px}
+h1{color:#f55;text-shadow:2px 0 cyan,-2px 0 red}
+input,button{padding:10px;font-size:18px}
+.msg{white-space:pre-line;font-size:1.5rem}
+</style></head><body>
+<div id="box">
+<h1>YOU ARE NOT THE CHOOSEN.</h1>
+<input id="pw" placeholder="PASSWORD"><br><br>
+<button onclick="go()">ACCESS</button>
+<div id="m"></div>
+</div>
+<script>
+let visits=+localStorage.getItem("visits")||0;
+let wrong=+localStorage.getItem("wrong")||0;
+visits++;localStorage.setItem("visits",visits);
+const endings={
+"Shinui Constantine":["gold","Contigo, eu aprendi a Nadar.\n\nObrigado."],
+"Aurora":["gray","Você guarda o seu Segredo. Não esqueça...\nO Vulto e a Luz estão ao seu lado, Aurora."],
+"Lucien":["cyan","Eu confio em vocês."],
+"Cecilie":["cyan","Eu confio em vocês."],
+"Blair":["black","In Tenebris Abisse."],
+"Elizabeth":["black","In Tenebris Abisse."],
+"Eduarda":["purple","Lembre-se.\nArrependa-se.\nIrmãzinha."],
+"Audrey":["white","Quebre o Ciclo. ".repeat(100)],
+"Natália":["white","Quebre o Ciclo. ".repeat(100)],
+"Natália Maida":["white","Quebre o Ciclo. ".repeat(100)],
+"Mariane":["red","Não importa quanto termos de mostrar, no final seremos quem estará lá.\nEsperando a Lua sangrar...\nE a Coroa me abençoar."]
+};
+function go(){
+ let s=document.getElementById('pw').value.trim();
+ let m=document.getElementById('m');
+ if(endings[s]){
+   let e=endings[s];
+   document.body.style.animation='none';
+   document.body.style.background={gold:'#8a6',gray:'#888',cyan:'#8ff',black:'#111',purple:'#503060',white:'#fff',red:'#600'}[e[0]];
+   document.body.style.color=e[0]=='white'?'#000':'#fff';
+   document.getElementById('box').innerHTML='<div class="msg">'+e[1]+'</div>';
+   localStorage.setItem("ending_"+s,"1");
+ }else{
+   wrong++;localStorage.setItem("wrong",wrong);
+   m.className='msg';
+   let t=["INCORRECT.","STOP TRYING.","I SAID NO.","WHO SENT YOU?","...","YOU KEEP COMING BACK.","I REMEMBER YOU."];
+   let idx=wrong<5?wrong-1:wrong<10?4:wrong<20?5:6;
+   m.textContent=t[idx]+"\n\nSIGNAL LOST.";
+ }
+}
+</script></body></html>
